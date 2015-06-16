@@ -19,9 +19,8 @@ bool patcher::chk_flag(char s){
 void status(string str){
   std::cout << str << std::endl;
 }
-void error(string str){
-  std::cout << __LINE__ << str << std::endl;
-}
+#define error(str) \
+  std::cout << __FILE__ << ", " << __LINE__ << ": " << str << std::endl;
 
 void patcher::get_pdata(string name, bool swap){
   std::ifstream freader(name.c_str(), std::ios::binary|std::ios::ate);
@@ -76,7 +75,7 @@ void patcher::do_patch(string name, bool swap){
       write_patch(0xc0000, fwriter);
       write_patch(0x7c0000, fwriter);
     }
-    std::cout << "Done NOR\n";
+    status("Done NOR");
   }else if(0x10000000L == pos){ // nand
     status("Go NAND");
     write_patch(0xc0030, fwriter);
@@ -92,9 +91,9 @@ void patcher::do_patch(string name, bool swap){
       write_patch(0xc0020, fwriter);
       write_patch(0x7c0010, fwriter);
     }
-    std::cout << "Done NAND\n";
+    status("Done NAND");
   }else{
-    std::cout << "Size error, exiting\n";
+    error("Size error, exiting");
     return;
   }
   if(chk_flag(0x4)); // autoexit, reserved

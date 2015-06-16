@@ -42,14 +42,17 @@ int main(int argc, char** argv){
         p.set_flag(0x4);
         break;
       case -1:
-        show_help();
         break;
       default:
         break;
     }
   }while(next_op!=-1);
 
-  if(optind >= argc) return 1;
+  if(optind >= argc){ 
+    show_help();
+    return 1;
+  }
+
   std::cout << "flag: " << (int)p.get_flag() << std::endl;
   std::cout << "input file: " << argv[optind] << std::endl;
 
