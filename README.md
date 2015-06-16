@@ -1,6 +1,6 @@
 # ps3patcher
 A homely port of ps3 nor/nand patcher program of  Swizzy/PS3DumpChecker from windows to gnu linux using c++.
-**It would be imprudent and precarious to use the tool immediately without a precedent validation of your own ps3 nor/nand dumps**
+**It would be immensely imprudent and precarious to use the tool immediately without a precedent validation of your own ps3 nor/nand dumps, which could be done by the ps3checker program.**
 
 ### how to use
 1. git clone https://github.com/bigtit/ps3patcher.git
