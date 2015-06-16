@@ -10,20 +10,23 @@ void show_help(){
   std::cout << " -t --trvk" << std::setw(40) << "Set the trvkpatches flag." << std::endl;
   std::cout << " -f --force" << std::setw(38) << "Set the forcepatch flag." << std::endl;
   std::cout << " -a --autoexit" << std::setw(33) << "Set the autoexit flag." << std::endl;
+  std::cout << " -s --swap" << std::setw(40) << "Enable the swap option." << std::endl;
 }
 
 int main(int argc, char** argv){
   int next_op;
-  const char* const short_op = "htfa";
+  const char* const short_op = "htfas";
   const struct option long_op[] = {
     {"help", 0, NULL, 'h'},
     {"trvk", 0, NULL, 't'},
     {"force", 0, NULL, 'f'},
     {"autoexit", 0, NULL, 'a'},
+    {"swap", 0, NULL, 's'},
     {NULL, 0, NULL, 0}
   };
 
   patcher p;
+  bool is_swap = false;
 
   appname = argv[0];
   do{
@@ -41,6 +44,9 @@ int main(int argc, char** argv){
       case 'a':
         p.set_flag(0x4);
         break;
+      case 's':
+        is_swap = true;
+        break;
       case -1:
         break;
       default:
@@ -57,7 +63,7 @@ int main(int argc, char** argv){
   std::cout << "input file: " << argv[optind] << std::endl;
 
   // run
-  p.do_patch(argv[optind], false);
+  p.do_patch(argv[optind], is_swap);
 
   return 0;
 }

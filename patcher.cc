@@ -51,6 +51,7 @@ void patcher::write_patch(int offset, std::ofstream& out){
 
 void patcher::do_patch(string name, bool swap){
   status("Go processing...");
+  if(swap) status("Go swap");
   string fileout = get_dest_name(name);
   std::ifstream freader(name.c_str(), std::ios::binary|std::ios::ate);
   freader >> std::noskipws;
