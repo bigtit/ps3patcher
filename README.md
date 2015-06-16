@@ -8,6 +8,5 @@ a homely port of ps3 nor/nand patcher program of  Swizzy/PS3DumpChecker from win
 4. the .out file is what you need to burn into ps3
 
 ### test environment
-archlinux 4.0.5 x86_64
-
+archlinux 4.0.5 x86_64 with
 gcc version 5.1.0
