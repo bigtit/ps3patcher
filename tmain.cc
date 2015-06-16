@@ -10,7 +10,7 @@ void show_help(){
   std::cout << " -t --trvk" << std::setw(40) << "Set the trvkpatches flag." << std::endl;
   std::cout << " -f --force" << std::setw(38) << "Set the forcepatch flag." << std::endl;
   std::cout << " -a --autoexit" << std::setw(33) << "Set the autoexit flag." << std::endl;
-  std::cout << " -s --swap" << std::setw(40) << "Enable the swap option." << std::endl;
+  std::cout << " -s --swap" << std::setw(38) << "Enable the swap option." << std::endl;
 }
 
 int main(int argc, char** argv){
