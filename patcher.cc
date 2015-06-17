@@ -62,10 +62,10 @@ void patcher::do_patch(string name, bool swap){
   auto pos = freader.tellg();
   freader.close();
   get_ros_pdata("patch.bin", swap);
+  std::cout << "input size: " << pos << std::endl;
   if(pos!=0x1000000L && pos!=0x10000000L){
-    error("Size error, exiting");
-    std::cout << "input size: " << pos << std::endl;
     remove(fileout.c_str());
+    error("size error, exits");
     return;
   }
   else if(0x1000000L == pos){ // nor
