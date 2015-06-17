@@ -51,18 +51,24 @@ void patcher::write_patch(int offset, std::ofstream& out){
 
 void patcher::do_patch(string name, bool swap){
   status("Go processing...");
-  if(swap) status("Go swap");
   string fileout = get_dest_name(name);
   std::ifstream freader(name.c_str(), std::ios::binary);
   freader >> std::noskipws;
   std::ofstream fwriter(fileout.c_str(), std::ios::binary);
+  if(swap) status("Go swap");
   status("Creating output file...");
   fwriter << freader.rdbuf(); // copy
   freader.seekg(0, std::ios::end);
   auto pos = freader.tellg();
   freader.close();
   get_ros_pdata("patch.bin", swap);
-  if(0x1000000L == pos){ // nor
+  if(pos!=0x1000000L && pos!=0x10000000L){
+    error("Size error, exiting");
+    std::cout << "input size: " << pos << std::endl;
+    remove(fileout.c_str());
+    return;
+  }
+  else if(0x1000000L == pos){ // nor
     status("Go NOR");
     write_patch(0xc0010, fwriter);
     write_patch(0x7c0010, fwriter);
@@ -78,7 +84,7 @@ void patcher::do_patch(string name, bool swap){
       write_patch(0x7c0000, fwriter);
     }
     status("Done NOR");
-  }else if(0x10000000L == pos){ // nand
+  }else{ // nand
     status("Go NAND");
     write_patch(0xc0030, fwriter);
     write_patch(0x7c0020, fwriter);
@@ -94,11 +100,8 @@ void patcher::do_patch(string name, bool swap){
       write_patch(0x7c0010, fwriter);
     }
     status("Done NAND");
-  }else{
-    error("Size error, exiting");
-    remove(fileout.c_str());
-    return;
   }
+
   if(chk_flag(0x4)); // autoexit, reserved
   return;
 }
