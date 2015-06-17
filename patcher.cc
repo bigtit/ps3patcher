@@ -25,7 +25,7 @@ void status(string str){
 void patcher::get_pdata(string name, bool swap){
   std::ifstream freader(name.c_str(), std::ios::binary|std::ios::ate);
   freader >> std::noskipws;
-  std::ifstream::pos_type pos = freader.tellg();
+  auto pos = freader.tellg();
   std::vector<byte> tmp(pos);
 
   freader.seekg(0, std::ios::beg);
@@ -55,7 +55,7 @@ void patcher::do_patch(string name, bool swap){
   string fileout = get_dest_name(name);
   std::ifstream freader(name.c_str(), std::ios::binary|std::ios::ate);
   freader >> std::noskipws;
-  std::ifstream::pos_type pos = freader.tellg();
+  auto pos = freader.tellg();
   freader.seekg(0, std::ios::beg); // for copy
   std::ofstream fwriter(fileout.c_str(), std::ios::binary);
   status("Creating output file...");
