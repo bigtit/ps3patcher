@@ -53,13 +53,14 @@ void patcher::do_patch(string name, bool swap){
   status("Go processing...");
   if(swap) status("Go swap");
   string fileout = get_dest_name(name);
-  std::ifstream freader(name.c_str(), std::ios::binary|std::ios::ate);
+  std::ifstream freader(name.c_str(), std::ios::binary);
   freader >> std::noskipws;
-  auto pos = freader.tellg();
-  freader.seekg(0, std::ios::beg); // for copy
   std::ofstream fwriter(fileout.c_str(), std::ios::binary);
   status("Creating output file...");
   fwriter << freader.rdbuf(); // copy
+  freader.seekg(0, std::ios::end);
+  auto pos = freader.tellg();
+  freader.close();
   get_ros_pdata("patch.bin", swap);
   if(0x1000000L == pos){ // nor
     status("Go NOR");
