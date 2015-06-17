@@ -96,6 +96,7 @@ void patcher::do_patch(string name, bool swap){
     status("Done NAND");
   }else{
     error("Size error, exiting");
+    remove(fileout.c_str());
     return;
   }
   if(chk_flag(0x4)); // autoexit, reserved
