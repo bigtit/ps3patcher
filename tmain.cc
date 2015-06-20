@@ -57,7 +57,6 @@ int main(int argc, char** argv){
         is_debug = true;
         break;
       case -1:
-        break;
       default:
         break;
     }
