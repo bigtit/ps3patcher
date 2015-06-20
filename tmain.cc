@@ -1,32 +1,38 @@
 #include <iomanip>
 #include "patcher.h"
 #include <getopt.h>
+using std::cout;
+using std::setw;
+using std::endl;
 
-string appname;
+string appname = "tmain";
 
 void show_help(){
-  std::cout << "Usage: " << appname << " options [inputfile]" << std::endl;
-  std::cout << " -h --help" << std::setw(40) << "Display help information." << std::endl;
-  std::cout << " -t --trvk" << std::setw(40) << "Set the trvkpatches flag." << std::endl;
-  std::cout << " -f --force" << std::setw(38) << "Set the forcepatch flag." << std::endl;
-  std::cout << " -a --autoexit" << std::setw(33) << "Set the autoexit flag." << std::endl;
-  std::cout << " -s --swap" << std::setw(38) << "Enable the swap option." << std::endl;
+  cout << "Usage: " << appname << " options [inputfile]" << endl;
+  cout << " -h --help" << setw(40) << "Display help information." << endl;
+  cout << " -t --trvk" << setw(40) << "Set the trvkpatches flag." << endl;
+  cout << " -f --force" << setw(38) << "Set the forcepatch flag." << endl;
+  cout << " -a --autoexit" << setw(33) << "Set the autoexit flag." << endl;
+  cout << " -s --swap" << setw(38) << "Enable the swap option." << endl;
+  cout << " -d --debug" << setw(30) << "Show debug info." << endl;
 }
 
 int main(int argc, char** argv){
   int next_op;
-  const char* const short_op = "htfas";
+  const char* const short_op = "htfasd";
   const struct option long_op[] = {
     {"help", 0, NULL, 'h'},
     {"trvk", 0, NULL, 't'},
     {"force", 0, NULL, 'f'},
     {"autoexit", 0, NULL, 'a'},
     {"swap", 0, NULL, 's'},
+    {"debug", 0, NULL, 'd'},
     {NULL, 0, NULL, 0}
   };
 
-  patcher p;
   bool is_swap = false;
+  bool is_debug = false;
+  char flag = 0;
 
   appname = argv[0];
   do{
@@ -36,16 +42,19 @@ int main(int argc, char** argv){
         show_help();
         break;
       case 't':
-        p.set_flag(0x1);
+        flag |= 0x1;
         break;
       case 'f':
-        p.set_flag(0x2);
+        flag |= 0x2;
         break;
       case 'a':
-        p.set_flag(0x4);
+        flag |= 0x4;
         break;
       case 's':
         is_swap = true;
+        break;
+      case 'd':
+        is_debug = true;
         break;
       case -1:
         break;
@@ -59,8 +68,10 @@ int main(int argc, char** argv){
     return 1;
   }
 
-  std::cout << "flag: " << (int)p.get_flag() << std::endl;
-  std::cout << "input file: " << argv[optind] << std::endl;
+  patcher p(is_debug);
+  p.set_flag(flag);
+  // cout << "flag: " << (int)p.get_flag() << endl;
+  cout << "input file: " << argv[optind] << endl;
 
   // run
   p.do_patch(argv[optind], is_swap);

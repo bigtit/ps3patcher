@@ -2,8 +2,9 @@
 #include <cstdio> // __LINE__
 #include "patcher.h"
 #include "pbase.h"
+using std::cout;
 
-patcher::patcher():flag(0){}
+patcher::patcher(bool dbg):flag(0), debug(dbg){}
 patcher::~patcher(){}
 
 void patcher::set_flag(char s){
@@ -16,11 +17,11 @@ bool patcher::chk_flag(char s){
   return (flag & s);
 }
 
-void status(string str){
-  std::cout << str << std::endl;
+void patcher::status(string str){
+  if(debug) cout << str << std::endl;
 }
 #define error(str) \
-  std::cout << __FILE__ << ", " << __LINE__ << ": " << str << std::endl;
+  cout << __FILE__ << ", " << __LINE__ << ": " << str << std::endl;
 
 void patcher::get_pdata(string name, bool swap){
   std::ifstream freader(name.c_str(), std::ios::binary|std::ios::ate);
@@ -46,11 +47,10 @@ string patcher::get_dest_name(string name){
 void patcher::write_patch(int offset, std::ofstream& out){
   out.seekp(offset, std::ios::beg);
   out.write((const char*)&pdata[0], pdata.size());
-  std::cout << "patchdata size: " << pdata.size() << " bytes" << std::endl;
+  status("patchdata size: "+std::to_string(pdata.size())+" bytes");
 }
 
 void patcher::do_patch(string name, bool swap){
-  status("Go processing...");
   string fileout = get_dest_name(name);
   std::ifstream freader(name.c_str(), std::ios::binary);
   freader >> std::noskipws;
@@ -62,7 +62,7 @@ void patcher::do_patch(string name, bool swap){
   auto pos = freader.tellg();
   freader.close();
   get_ros_pdata("patch.bin", swap);
-  std::cout << "input size: " << pos << std::endl;
+  status("input size: "+std::to_string(pos));
   if(pos!=0x1000000L && pos!=0x10000000L){
     remove(fileout.c_str());
     error("size error, exits");
@@ -103,5 +103,6 @@ void patcher::do_patch(string name, bool swap){
   }
 
   if(chk_flag(0x4)); // autoexit, reserved
+  cout << "Done\n";
   return;
 }
