@@ -5,7 +5,7 @@ A homely port of ps3 nor/nand patcher program of  Swizzy/PS3DumpChecker from win
 ### how to use
 1. git clone https://github.com/bigtit/ps3patcher.git
 2. cd ps3patcher && make
-3. ./tmain -t -f -s ps3.dump
+3. ./ps3patcher -t -f -s ps3.dump
 4. the .out file is what you need to burn into ps3
 
 ### test environment
