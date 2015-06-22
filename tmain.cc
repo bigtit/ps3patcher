@@ -5,9 +5,8 @@ using std::cout;
 using std::setw;
 using std::endl;
 
-string appname = "tmain";
 
-void show_help(){
+void show_help(string appname){
   cout << "Usage: " << appname << " options [inputfile]" << endl;
   cout << " -h --help" << setw(40) << "Display help information." << endl;
   cout << " -t --trvk" << setw(40) << "Set the trvkpatches flag." << endl;
@@ -34,7 +33,7 @@ int main(int argc, char** argv){
   bool is_debug = false;
   char flag = 0;
 
-  appname = argv[0];
+  string appname = argv[0];
   do{
     next_op = getopt_long(argc, argv, short_op, long_op, NULL);
     switch(next_op){
@@ -61,7 +60,7 @@ int main(int argc, char** argv){
   }while(next_op!=-1);
 
   if(optind >= argc){ 
-    show_help();
+    show_help(appname);
     return 1;
   }
 
