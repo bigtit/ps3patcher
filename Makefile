@@ -1,5 +1,5 @@
-tmain: tmain.o pbase.o patcher.o
-	g++ -o tmain tmain.o pbase.o patcher.o
+ps3patcher: tmain.o pbase.o patcher.o
+	g++ -o ps3patcher tmain.o pbase.o patcher.o
 tmain.o: tmain.cc pbase.h
 	cc -c tmain.cc -std=c++11
 pbase.o: pbase.cc pbase.h
