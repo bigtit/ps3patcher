@@ -38,9 +38,6 @@ int main(int argc, char** argv){
   do{
     next_op = getopt_long(argc, argv, short_op, long_op, NULL);
     switch(next_op){
-      case 'h':
-        show_help();
-        break;
       case 't':
         flag |= 0x1;
         break;
@@ -56,6 +53,7 @@ int main(int argc, char** argv){
       case 'd':
         is_debug = true;
         break;
+      case 'h':
       case -1:
       default:
         break;
