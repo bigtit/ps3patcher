@@ -1,6 +1,6 @@
 ps3patcher: tmain.o pbase.o patcher.o
 	g++ -o ps3patcher tmain.o pbase.o patcher.o
-tmain.o: tmain.cc pbase.h
+tmain.o: tmain.cc patcher.h
 	cc -c tmain.cc -std=c++11
 pbase.o: pbase.cc pbase.h
 	cc -c pbase.cc -std=c++11

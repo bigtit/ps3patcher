@@ -44,9 +44,9 @@ string patcher::get_dest_name(string name){
   return name+".out";
 }
 
-void patcher::write_patch(int offset, std::ofstream& out){
-  out.seekp(offset, std::ios::beg);
-  out.write((const char*)&pdata[0], pdata.size());
+void patcher::write_patch(int offset, std::ofstream& fout){
+  fout.seekp(offset, std::ios::beg);
+  fout.write((const char*)&pdata[0], pdata.size());
   status("patchdata size: "+std::to_string(pdata.size())+" bytes");
 }
 

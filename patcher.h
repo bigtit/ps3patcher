@@ -16,7 +16,7 @@ class patcher{
   void get_pdata(string name, bool swap);
   void get_ros_pdata(string name, bool swap);
   string get_dest_name(string name);
-  void write_patch(int offset, std::ofstream& out);
+  void write_patch(int offset, std::ofstream& fout);
   void status(string str);
 public:
   void set_flag(char s);
